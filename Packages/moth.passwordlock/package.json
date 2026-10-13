@@ -1,0 +1,17 @@
+{
+  "name": "moth.passwordlock",
+  "displayName": "Password Lock",
+  "version": "1.0.0",
+  "url": "https://github.com/peri-perihelion/VRC-PasswordLock",
+  "author": {
+    "name": "moth",
+    "url": "https://github.com/peri-perihelion"
+  },
+  "unity": "2022.3",
+  "description": "Modern password lock for VRChat avatars.",
+  "documentationUrl": "https://github.com/peri-perihelion/VRC-PasswordLock",
+  "licensesUrl": "https://www.gnu.org/licenses/gpl-3.0.en.html",
+  "vpmDependencies": {
+    "com.vrchat.avatars": "^3.10.1"
+  }
+}
