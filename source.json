@@ -1,0 +1,17 @@
+{
+    "name": "VRC Password Lock",
+    "id": "moth.passwordlock",
+    "url": "https://github.com/peri-perihelion/VRC-PasswordLock/index.json",
+    "author": {
+        "name": "moth"
+    },
+    "description": "Modern password lock for VRChat Avatars",
+    "infoLink": {
+        "url": "https://github.com/peri-perihelion/VRC-PasswordLock",
+        "text": "View on GitHub"
+    },
+    "bannerUrl": "banner.png",
+    "githubRepos": [
+        "peri-perihelion/VRC-PasswordLock"
+    ]
+}
