@@ -25,8 +25,15 @@ namespace moth.passwordlock {
             }
 
             EditorUtility.DisplayProgressBar("Locking Avatar", "Creating folder..", 0);
+            
+            // create the locked folder if it doesnt exist
+            string folder = $"{ROOT}{LOCKED}";
+            if (!AssetDatabase.IsValidFolder(folder)) {
+                // first character of locked is always a slash
+                AssetDatabase.CreateFolder(ROOT, LOCKED.Substring(1));
+            }
 
-            string AVATAR_ROOT = $"{ROOT}{LOCKED}/{source.name}";
+            string AVATAR_ROOT = $"{folder}/{source.name}";
             if (AssetDatabase.IsValidFolder(AVATAR_ROOT)) {
                 // clear the avatar root if it exists
                 AssetDatabase.DeleteAsset(AVATAR_ROOT);

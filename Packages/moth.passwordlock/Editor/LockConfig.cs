@@ -25,7 +25,14 @@ namespace moth.passwordlock {
         }
         /// <summary> Loads or creates a config for the given avatar </summary>
         public static LockConfig Load(VRCAvatarDescriptor avatar) {
-            string path = $"{PasswordLocker.ROOT}{CONFIGS}/{avatar.name}.asset";
+            string folder = $"{PasswordLocker.ROOT}{CONFIGS}";
+            string path = $"{folder}/{avatar.name}.asset";
+
+            // create the configs folder if it doesnt exist
+            if (!AssetDatabase.IsValidFolder(folder)) {
+                // first character of configs is always a slash
+                AssetDatabase.CreateFolder(PasswordLocker.ROOT, CONFIGS.Substring(1));
+            }
 
             var config = AssetDatabase.LoadAssetAtPath<LockConfig>(path);
             if (config == null) {
