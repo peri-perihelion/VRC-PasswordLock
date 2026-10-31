@@ -25,7 +25,7 @@ namespace moth.passwordlock {
             }
 
             EditorUtility.DisplayProgressBar("Locking Avatar", "Creating folder..", 0);
-            
+
             // create the locked folder if it doesnt exist
             string folder = $"{ROOT}{LOCKED}";
             if (!AssetDatabase.IsValidFolder(folder)) {
@@ -171,15 +171,24 @@ namespace moth.passwordlock {
             return AssetDatabase.LoadAssetAtPath<AnimatorController>($"{AVATAR_ROOT}/LockedAnimation.controller");
         }
         private static void LockBase(AnimatorController baseLayer, LockConfig config) {
+            // add the lock parameter
+            baseLayer.AddParameter(new() {
+                name = config.lockParameter,
+                type = AnimatorControllerParameterType.Bool
+            });
+
             var animationlayer = baseLayer.CreateLayer("Lock Animation");
 
+            // lock animation
             var defaultState = animationlayer.stateMachine.AddState("Default");
             var animationState = animationlayer.stateMachine.AddState("Lock Animation");
             animationState.motion = config.lockAnimation;
 
+            // transition in when locked
             var locked = defaultState.CreateTransition(animationState);
             locked.AddCondition(AnimatorConditionMode.If, 0, config.lockParameter);
 
+            // transition out when unlocked
             var unlocked = animationState.CreateTransition(defaultState);
             unlocked.AddCondition(AnimatorConditionMode.IfNot, 0, config.lockParameter);
         }
