@@ -179,8 +179,12 @@ namespace moth.passwordlock {
 
             var animationlayer = baseLayer.CreateLayer("Lock Animation");
 
+            // replace unity's default "empty" animation so the layer isnt ignored
+            var empty = AssetDatabase.LoadAssetAtPath<AnimationClip>($"{ROOT}{DEFAULTS}/Motion.anim");
+
             // lock animation
             var defaultState = animationlayer.stateMachine.AddState("Default");
+            defaultState.motion = empty;
             var animationState = animationlayer.stateMachine.AddState("Lock Animation");
             animationState.motion = config.lockAnimation;
 
