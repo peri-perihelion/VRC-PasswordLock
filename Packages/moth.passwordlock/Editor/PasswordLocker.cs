@@ -54,6 +54,13 @@ namespace moth.passwordlock {
             var baseLayer = originals.StoreBase(source, AVATAR_ROOT);
             if (config.lockAnimation != null) {
                 LockBase(baseLayer, config);
+
+                // SUPER BODGE, NOT BOTHERING TO MAKE THIS PRETTY
+                // remove this once vrcfury supports layer ordering
+                if (config.overrideLayer != null) {
+                    originals.overrideLayer = config.overrideLayer;
+                    LockBase(config.overrideLayer, config);
+                }
             }
 
             if (config.useDecoy) {
@@ -158,7 +165,7 @@ namespace moth.passwordlock {
 
             passwordLayer.stateMachine.states = states;
         }
-        
+
         private static AnimatorController StoreBase(this OriginalAssets source, VRCAvatarDescriptor avatar, string AVATAR_ROOT) {
             source.baseLayer = avatar.baseAnimationLayers[0].animatorController as AnimatorController;
             if (source.baseLayer == null) {
@@ -297,11 +304,75 @@ namespace moth.passwordlock {
             source.expressionParameters = originals.parameters;
             source.expressionsMenu = originals.menu;
 
+            // BODGE, REMOVE IN THE FUTURE OR REFACTOR
+            if (originals.overrideLayer != null) {
+                RemoveOverride(originals.overrideLayer);
+            }
+
             // empty out the directory
             AssetDatabase.DeleteAsset(AVATAR_ROOT);
 
             Debug.Log("Lock undone successfully.");
             return true;
+        }
+        // removes the lock from the override layer. temporary fix for VRCFury
+        private static bool RemoveOverride(AnimatorController overrideLayer) {
+            const string errorHeader = "Failed to remove lock animation from override layer!";
+
+            // attempt to locate layer
+            AnimatorControllerLayer animationLayer = null;
+            int removalIndex = -1;
+            for (int i = 0; i < overrideLayer.layers.Length; i++) {
+                if (overrideLayer.layers[i].name == "Lock Animation") {
+                    animationLayer = overrideLayer.layers[i];
+                    removalIndex = i;
+                    break;
+                }
+            }
+
+            // no layer
+            if (removalIndex < 0) {
+                Debug.Log($"{errorHeader} Layer is missing, or name was changed.");
+                return false;
+            }
+
+            // try to figure out the lock parameter name
+            string parameterName;
+            if (animationLayer.stateMachine.defaultState != null) {
+                if (animationLayer.stateMachine.defaultState.transitions.Length > 0) {
+                    var transition = animationLayer.stateMachine.defaultState.transitions[0];
+                    if (transition.conditions.Length > 0) {
+                        parameterName = transition.conditions[0].parameter;
+                    }
+                    else {
+                        Debug.Log($"{errorHeader} Malformed layer, transition has no conditions.");
+                        return false;
+                    }
+                }
+                else {
+                    Debug.Log($"{errorHeader} Malformed layer, lock does not transition.");
+                    return false;
+                }
+            }
+            else {
+                Debug.Log($"{errorHeader} Malformed layer, animation does not exist.");
+                return false;
+            }
+            // ^ god this is ugly, pretend you didnt see it
+
+            // done with layer, remove it
+            overrideLayer.RemoveLayer(removalIndex);
+
+            // attempt to remove parameter
+            for (int i = 0; i < overrideLayer.parameters.Length; i++) {
+                if (overrideLayer.parameters[i].name == parameterName) {
+                    overrideLayer.RemoveParameter(i);
+                    return true;
+                }
+            }
+
+            Debug.Log($"{errorHeader} Parameter is missing.");
+            return false;
         }
         
         public static bool RemoveDeprecated(this VRCAvatarDescriptor source) {

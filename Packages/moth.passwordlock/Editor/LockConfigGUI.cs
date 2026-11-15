@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -47,6 +48,25 @@ namespace moth.passwordlock {
             return root;
         }
         
+        public static VisualElement OverrideLayer(this LockConfig config) {
+            ObjectField overrideLayerField = new() {
+                label = "Override Base Layer",
+                tooltip = "Intended for VRCFury Full Controller users.",
+                objectType = typeof(AnimatorController),
+                value = config.overrideLayer
+            };
+            overrideLayerField.RegisterValueChangedCallback(_ => {
+                config.overrideLayer = overrideLayerField.value as AnimatorController;
+            });
+
+            var root = DefaultButton(overrideLayerField, out var button);
+            button.RegisterCallback<ClickEvent>(_ => {
+                overrideLayerField.value = null;
+            });
+
+            return root;
+        }
+
         private static TextField Password(LockConfig config) {
             lastValidPassword = config.password;
 

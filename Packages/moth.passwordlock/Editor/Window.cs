@@ -111,6 +111,9 @@ namespace moth.passwordlock {
                 tools.contentContainer.Add(ClearConfigButton());
                 tools.contentContainer.Add(RemoveDeprecatedButton());
                 tools.contentContainer.Add(DebugToggle());
+
+                // SUPER BODGE, THIS SHOULD BE REMOVED AT A FUTURE DATE
+                tools.contentContainer.Add(config.OverrideLayer());
             }
             root.Add(tools);
 
@@ -152,7 +155,7 @@ namespace moth.passwordlock {
             }
         }
 
-        private Toggle DebugToggle() {
+        private static Toggle DebugToggle() {
             Toggle debugToggle = new() {
                 label = "Debug",
                 tooltip = "Enable debugging tools.",
@@ -239,7 +242,7 @@ namespace moth.passwordlock {
                 style = { flexDirection = FlexDirection.Row }
             };
             Label sourceLabel = new() {
-                text = "Source Code",
+                text = "View Source Code",
                 style = {
                     color = linkColor,
                     borderBottomColor = linkColor

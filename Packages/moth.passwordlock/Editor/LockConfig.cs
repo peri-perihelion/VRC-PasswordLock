@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
@@ -8,6 +9,7 @@ namespace moth.passwordlock {
 
         public Texture2D menuIcon;
         public AnimationClip lockAnimation;
+        public AnimatorController overrideLayer;
 
         public string password, inputParameter, lockParameter, layerName;
 
@@ -43,7 +45,7 @@ namespace moth.passwordlock {
                     
                     // TODO: Locate config for locked avatars whos name has changed
                     // we can do this by using the directory, but i just have to get around to it.
-                    Debug.Log(parameterPath);
+                    //Debug.Log(parameterPath);
                 }
 
                 // create a new one
