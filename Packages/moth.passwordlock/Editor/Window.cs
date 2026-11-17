@@ -111,9 +111,6 @@ namespace moth.passwordlock {
                 tools.contentContainer.Add(ClearConfigButton());
                 tools.contentContainer.Add(RemoveDeprecatedButton());
                 tools.contentContainer.Add(DebugToggle());
-
-                // SUPER BODGE, THIS SHOULD BE REMOVED AT A FUTURE DATE
-                tools.contentContainer.Add(config.OverrideLayer());
             }
             root.Add(tools);
 
