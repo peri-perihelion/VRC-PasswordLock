@@ -249,7 +249,7 @@ namespace moth.passwordlock {
             }
 
             // attach unlock menu
-            var unlockMenu = menu.AttachUnlockMenu(config.inputParameter, config.menuIcon);
+            var unlockMenu = menu.AttachUnlockMenu(config.inputParameter, config.menuIcon, config.menuName);
             foreach (var control in unlockMenu.controls) {
                 control.icon = config.menuIcon;
             }

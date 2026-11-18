@@ -36,9 +36,10 @@ namespace moth.passwordlock {
                 value = false
             };
             {
-                configuration.contentContainer.Add(LayerName(config));        
-                configuration.contentContainer.Add(LockedAnimation(config));   
-                configuration.contentContainer.Add(MenuIcon(config)); 
+                configuration.contentContainer.Add(LayerName(config));
+                configuration.contentContainer.Add(MenuName(config));
+                configuration.contentContainer.Add(LockedAnimation(config));
+                configuration.contentContainer.Add(MenuIcon(config));
                 configuration.contentContainer.Add(Decoy(config));
                 configuration.contentContainer.Add(Obfuscation(config));
             }
@@ -152,6 +153,23 @@ namespace moth.passwordlock {
             var root = DefaultButton(layerNameField, out var button);
             button.RegisterCallback<ClickEvent>(_ => {
                 layerNameField.value = "Password Lock";
+            });
+            return root;
+        }
+        private static VisualElement MenuName(LockConfig config) {
+            TextField menuNameField = new() {
+                label = "Menu Name",
+                tooltip = "The name that the unlock menu will have.",
+                value = config.menuName
+            };
+
+            menuNameField.RegisterValueChangedCallback(_ => {
+                config.menuName = menuNameField.value;
+            });
+
+            var root = DefaultButton(menuNameField, out var button);
+            button.RegisterCallback<ClickEvent>(_ => {
+                menuNameField.value = "Unlock";
             });
             return root;
         }

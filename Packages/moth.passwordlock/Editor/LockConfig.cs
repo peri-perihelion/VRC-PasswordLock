@@ -9,7 +9,7 @@ namespace moth.passwordlock {
         public Texture2D menuIcon;
         public AnimationClip lockAnimation;
 
-        public string password, inputParameter, lockParameter, layerName;
+        public string password, inputParameter, lockParameter, layerName, menuName;
 
         public int obfuscationMode;
 
@@ -21,6 +21,7 @@ namespace moth.passwordlock {
             inputParameter = "VRCSyncInt";
             lockParameter = "VRCSyncBool";
             layerName = "Password Lock";
+            menuName = "Unlock";
             obfuscationMode = 0;
         }
         /// <summary> Loads or creates a config for the given avatar </summary>

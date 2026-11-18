@@ -276,9 +276,9 @@ namespace moth.passwordlock {
 
             return chain;
         }
-        public static VRCExpressionsMenu AttachUnlockMenu(this VRCExpressionsMenu source, string inputVar, Texture2D icon) {
+        public static VRCExpressionsMenu AttachUnlockMenu(this VRCExpressionsMenu source, string inputVar, Texture2D icon, string name) {
             var menu = ScriptableObject.CreateInstance<VRCExpressionsMenu>();
-            menu.name = "Unlock";
+            menu.name = name;
 
             for (int i = 1; i <= 8; i++) {
                 VRCExpressionsMenu.Control unlockInput = new() {
@@ -293,7 +293,7 @@ namespace moth.passwordlock {
             }
 
             VRCExpressionsMenu.Control submenu = new() {
-                name = "Unlock",
+                name = name,
                 type = VRCExpressionsMenu.Control.ControlType.SubMenu,
                 subMenu = menu,
                 icon = icon
