@@ -181,11 +181,32 @@ namespace moth.passwordlock {
                 objectType = typeof(AnimationClip),
                 value = config.lockAnimation
             };
+
+            HelpBox vrcfuryWarning = new() {
+                messageType = HelpBoxMessageType.Warning,
+                text = "If using VRCFury, note that using a Full Controller to merge the Base Layer will disable lock animations. Hover for a solution.",
+                tooltip = "A simple workaround is to set the Base Layer on your avatar to the one in the Full Controller.",
+                style = { display = DisplayStyle.None }
+            };
+            if (config.lockAnimation != null) {
+                vrcfuryWarning.style.display = DisplayStyle.Flex;
+            }
+
             lockedAnimationField.RegisterValueChangedCallback(_ => {
                 config.lockAnimation = lockedAnimationField.value as AnimationClip;
+
+                if (config.lockAnimation != null) {
+                    vrcfuryWarning.style.display = DisplayStyle.Flex;
+                }
+                else {
+                    vrcfuryWarning.style.display = DisplayStyle.None;
+                }
             });
 
-            var root = DefaultButton(lockedAnimationField, out var button);
+            VisualElement root = new();
+            root.Add(DefaultButton(lockedAnimationField, out var button));
+            root.Add(vrcfuryWarning);
+
             button.RegisterCallback<ClickEvent>(_ => {
                 lockedAnimationField.value = null;
             });
