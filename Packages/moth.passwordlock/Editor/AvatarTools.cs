@@ -7,6 +7,7 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 
 using System.Collections.Generic;
 using System.Linq;
+using VRC;
 
 namespace moth.passwordlock {
     public static class AvatarTools {
@@ -99,6 +100,7 @@ namespace moth.passwordlock {
             // add new ones
             updated.AddRange(parameters);
             source.parameters = updated.ToArray();
+            source.MarkDirty();
         }
         /// <summary> Utility function for adding VRChat parameters to an animator controller. </summary>
         public static void AddVRCParameters(this AnimatorController source, List<VRCExpressionParameters.Parameter> parameters) {
@@ -120,6 +122,7 @@ namespace moth.passwordlock {
             foreach (var parameter in parameters) {
                 source.AddParameter(parameter.name, parameter.valueType.Into());
             }
+            source.MarkDirty();
         }
         /// <summary> Converts a VRC Type into an Animator Controller Type </summary>
         private static AnimatorControllerParameterType Into(this VRCExpressionParameters.ValueType source) {
@@ -300,6 +303,7 @@ namespace moth.passwordlock {
             };
             
             source.controls.Add(submenu);
+            source.MarkDirty();
 
             return menu;
         }
